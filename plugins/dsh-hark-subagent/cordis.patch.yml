@@ -1,0 +1,17 @@
+# dsh-hark-subagent —— 挂载到 profile 的补丁层。
+#
+# 为什么用 insert: 本插件是**新增**能力, 不改宿主已有配置。
+# 零依赖 (只 import node: 内置模块), 因此不要求宿主 node_modules 里有任何 dsh 包。
+- insert:
+    - id: dsh-hark-subagent
+      name: 'dsh-hark-subagent'
+      config:
+        # hark 网关 (workspaces/reverse/hark.com/bridge/hark2api.py) 的基址。
+        endpoint: http://127.0.0.1:8920
+        # 单次工具调用的 HTTP 超时 (毫秒)。**注意**: 这只是 HTTP 层超时,
+        # 超时不代表任务失败 —— 网关会把 job 置 STALE 并可接续。
+        timeoutMs: 120000
+        # 系统提示里的 hark 状态快照位置 (紧随 dsh-taskspan 的 5105)。
+        order: 5110
+        # WS 实时快照的自动重连间隔 (毫秒)。
+        wsReconnectMs: 5000
